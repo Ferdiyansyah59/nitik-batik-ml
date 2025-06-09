@@ -1,0 +1,20 @@
+name: batik-api # Nama environment Anda sudah benar
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  #--- Paket inti yang stabil diinstal dari Conda ---
+  - python=3.11
+  - gunicorn
+  - flask
+  - flask-cors
+  - pillow
+  - requests
+
+  #--- Paket lain diinstal via Pip untuk kompatibilitas terbaik ---
+  - pip
+  - pip:
+      - tensorflow==2.15.0
+      - scikit-learn
+      - numpy
+      - pandas

@@ -1,11 +1,24 @@
-FROM python:3.10-slim
+# 1. Gunakan base image resmi dari Miniconda
+# Image ini sudah memiliki Conda terinstal.
+FROM continuumio/miniconda3
 
-ENV PYTHONUNBUFFERED True
+# Tetapkan direktori kerja di dalam kontainer
+WORKDIR /app
 
-ENV APP_HOME /app
-WORKDIR $APP_HOME
-COPY . ./
+# 2. Salin file environment.yml terlebih dahulu
+COPY environment.yml .
 
-RUN pip install -r requirements.txt
+# 3. Buat environment Conda berdasarkan file .yml
+# Perintah ini akan menginstal semua dependensi dari conda dan pip
+RUN conda env create -f environment.yml
 
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
+# Salin sisa kode aplikasi Anda
+COPY . .
+
+# Tetapkan environment variable untuk port
+ENV PORT=8080
+
+# 4. Perintah untuk menjalankan aplikasi
+# Gunakan 'conda run' untuk mengeksekusi perintah dari dalam environment yang baru dibuat
+# Ganti 'nama_env_anda' dengan nama environment yang ada di dalam file environment.yml Anda
+CMD ["conda", "run", "-n", "batik-api", "gunicorn", "--bind", "0.0.0.0:8080", "--workers", "1", "--threads", "8", "main:app"]

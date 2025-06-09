@@ -11,9 +11,10 @@ import os
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./aa.json"
 
 
-# PATH_MODEL = "gs://batik-klasifikasi-model/model/model_acc93_valacc93.keras"
+PATH_MODEL = "gs://nitk-batik-klasifikasi-ferdi-2025/model_acc93_valacc93.keras"
 
-model = tf.keras.models.load_model("./model_acc93_valacc93.keras")
+# model = tf.keras.models.load_model("./model_acc93_valacc93.keras")
+model = tf.keras.models.load_model(PATH_MODEL)
 
 class_names  = ['Corak Insang',
  'Dayak',
