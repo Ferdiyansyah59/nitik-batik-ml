@@ -11,10 +11,8 @@ import os
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./aa.json"
 
 
-PATH_MODEL = "gs://nitk-batik-klasifikasi-ferdi-2025/model_acc93_valacc93.keras"
+MODEL_PATH = "./model_acc93_valacc93.keras"
 
-# model = tf.keras.models.load_model("./model_acc93_valacc93.keras")
-model = tf.keras.models.load_model(PATH_MODEL)
 
 class_names  = ['Corak Insang',
  'Dayak',
@@ -40,6 +38,25 @@ class_names  = ['Corak Insang',
  'sidomukti',
  'sogan',
  'tambal']
+
+
+def load_model():
+    """Load model dari file lokal"""
+    if not os.path.exists(MODEL_PATH):
+        raise FileNotFoundError(f"Model file not found: {MODEL_PATH}")
+    
+    print(f"Loading model from: {MODEL_PATH}")
+    try:
+        model = tf.keras.models.load_model(MODEL_PATH)
+        print("Model loaded successfully!")
+        return model
+    except Exception as e:
+        print(f"Error loading model: {e}")
+        raise
+
+# Load model saat import
+
+model = load_model()
 def predict(url):
     # Unduh gambar dari URL
     response = requests.get(url)
